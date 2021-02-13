@@ -8,8 +8,9 @@ import Dropdown from './dropdown';
 import Slider from './slider';
 import Status from './status';
 import Overview from './overview';
-import {getAccounts, fetchUserData, fetchPrices, round} from '../utils/index';
 import {TOKENS, TOKEN_CONFIG} from '../config/config';
+import {connect} from 'react-redux';
+import {getBalances, getPrices} from "../actions/index";
 const { Option } = Select;
 
 class Home extends React.Component{
@@ -22,27 +23,15 @@ class Home extends React.Component{
       amount: '',
       mode: '1',
       ltv: '0.5',
-      isOpen: false,
-      account: '',
-      deposits: [],
-      borrows: [],
-      prices: []
+      isOpen: false
     }
   }
 
 
     async componentDidMount(){
       try{
-        const account = await getAccounts();
-        this.changeState('account', account);
-        const result = await fetchUserData(account);
-      const {deposits, borrows} = result;
-      const prices = await fetchPrices();
-      this.setState(({
-        deposits: deposits,
-        borrows: borrows
-      }));
-      this.prices = prices;
+        this.props.dispatch(getBalances());
+        this.props.dispatch(getPrices());
 
       }
       catch(e){
@@ -90,8 +79,23 @@ class Home extends React.Component{
     }
 
 
+  calcPrice = () => {
+    const {tokenIn, leverageToken} = this.state;
+
+    const {prices} = this.props;
+    if(Object.keys(prices).length > 0){
+      const priceTokenIn = prices[TOKENS[tokenIn]]['usd'] || 1;
+      const priceTokenOut = prices[TOKENS[leverageToken]]['usd'];
+      return priceTokenIn/priceTokenOut;
+    }
+    else {
+      return '1';
+    }
+  }
+
+
     render(){
-      const maxLtv = TOKEN_CONFIG[this.state.tokenIn].baseLTVasCollateral / 10000;
+      const maxLtv = TOKEN_CONFIG[this.state.leverageToken].baseLTVasCollateral / 10000;
   
       const price = this.calcPrice();
 
@@ -99,6 +103,11 @@ class Home extends React.Component{
     const leverageFactor = 1/(1 - ltv);
     const deposit =  amount * leverageFactor;
     const borrow = deposit - amount;
+
+    console.log('-----------');
+    console.log(amount)
+    console.log(deposit)
+    console.log(borrow)
   
       return(
         <div id="home">
@@ -126,7 +135,7 @@ class Home extends React.Component{
                 <h6>Interest mode</h6>
                 <Select defaultValue={'1'} size={'large'} style={{ width: 120 }} onChange={(val) => this.changeState('mode', val)}>
                   <Option style={{height: 50}} value="1">Stable</Option>
-                  <Option style={{height: 50}} value="2">Borrow</Option>
+                  <Option style={{height: 50}} value="2">Variable</Option>
                 </Select>
               </div>
            
@@ -140,11 +149,12 @@ class Home extends React.Component{
               <Overview {...this.state} price={price} deposit={deposit} borrow={borrow} leverageFactor={leverageFactor} />
             </div>
             <div id="home-portal-positions">
-              <Status deposits={this.state.deposits} borrows={this.state.borrows} />
+           
+              <Status />
             </div>
 
           </div>
-          {this.state.isOpen && <Steps {...this.state} deposit={deposit} borrow={borrow} />}
+          {this.state.isOpen && <Steps {...this.state} deposit={deposit} borrow={borrow} close={this.close} />}
           <div id="home">
         <div id="home-container">
           <div id="home-portal">
@@ -201,7 +211,7 @@ class Home extends React.Component{
         </div>
         </div>
         </div>
-        </div>
+
       );
     }
 
@@ -209,3 +219,13 @@ class Home extends React.Component{
 
 
 export default Home;
+
+const mapStateToProps = (state) => {
+	return{
+		account: state.account,
+    balance: state.balance,
+		prices: state.price
+	};
+};
+
+export default connect(mapStateToProps)(Home); 

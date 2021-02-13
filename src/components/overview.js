@@ -7,6 +7,7 @@ const Overview = (props) => {
   console.log(tokenIn, leverageToken, amount, deposit, borrow, price);
 
   const collateral = deposit * price;
+  const interestMode = mode == 1 ? 'Stable' : 'Variable';
 
 	return(
     <div id="overview">
@@ -24,6 +25,12 @@ const Overview = (props) => {
           <div className="overview-value-container">
             <p>{round(borrow)}</p>
             <img className="overview-icon" src={`/images/${tokenIn.toLowerCase()}.svg`} />
+          </div>
+        </div>
+        <div className="overview-box">
+          <p>Interest mode:</p>
+          <div className="overview-value-container">
+            <p>{interestMode}</p>
           </div>
         </div>
         <div className="overview-box">
