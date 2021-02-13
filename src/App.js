@@ -1,6 +1,10 @@
 import Home from './components/home';
+import Input from "./input";
+import Steps from './steps';
+import Dropdown from './dropdown';
+import {getAccounts} from '../utils/index';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Home />
