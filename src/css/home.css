@@ -1,4 +1,4 @@
-#home-container {
+#home {
 
     height: 100%;
     width: 100%;
@@ -7,13 +7,30 @@
     align-items: center;
   }
   
+  #home-container {
+    width: 40%;
+  }
+
   #home-portal {
     height: 500px;
-    width: 500px;
-    background-color: white;
+    width: 100%;
+    display: flex;
   }
   
-  #home-portal-input {
+  #home-portal-left {
     height: 100%;
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  #home-portal-right {
+    height: 100%;
+    width: 50%;
+  }
+  
+  .home-portal-input {
+    display: flex;
+    align-items: center;
   } 

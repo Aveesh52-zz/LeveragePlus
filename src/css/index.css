@@ -1,4 +1,5 @@
 @import 'home';
 @import 'input';
-@import 'steps';
-@import 'dropdown'; 
+@import 'steps'; 
+@import 'dropdown';
+@import 'wallet'; 
