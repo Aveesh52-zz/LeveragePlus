@@ -9,7 +9,7 @@
   
   #home-container {
     height: 500px;
-  width: 1200px;
+  /* width: 1200px; */
   }
 
   #home-portal {
@@ -20,7 +20,7 @@
   
   #home-portal-left {
     height: 100%;
-    width: 30%;
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,15 +28,15 @@
   
   #home-portal-right {
     height: 100%;
-    width: 30%;
+    width: 600px;
   }
   
   #home-portal-positions {
     height: 100%;
-    width: 30%;
+    width: 300px;
   }
   
   .home-portal-input {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
   } 

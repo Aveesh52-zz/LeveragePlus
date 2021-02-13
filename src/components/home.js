@@ -68,13 +68,14 @@ class Home extends React.Component{
     }
     calcPrice = () => {
       const {tokenIn, leverageToken} = this.state;
-      if(this.prices != undefined){
-        const priceTokenIn = this.prices[TOKENS[tokenIn]]['usd'] || 1;
-        const priceTokenOut = this.prices[TOKENS[leverageToken]]['usd'];
+      const {prices} = this.props;
+      if(Object.keys(prices).length > 0){
+        const priceTokenIn = prices[TOKENS[tokenIn]]['usd'] || 1;
+        const priceTokenOut = prices[TOKENS[leverageToken]]['usd'];
         return priceTokenIn/priceTokenOut;
       }
       else {
-        return 1;
+        return '1';
       }
     }
 

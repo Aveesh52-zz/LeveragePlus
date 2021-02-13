@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {getUserData} from "../actions/index";
 import {fromWei} from '../utils/index';
 
 class Status extends React.Component {
@@ -19,6 +21,7 @@ class Status extends React.Component {
     const ifBorrows = borrows.length > 0;
 
     return(
+
       <div id="status">
         <div id="status-container">
           <h5>User position on Aave</h5>
@@ -45,15 +48,18 @@ class Status extends React.Component {
               </div>
     )) : <p>No borrows</p>}
     </div>
-
-
-
         </div>
       </div>
 
-  );
+    );
 
 }
+
+
+
+}
+
+
 
 
 const mapStateToProps = (state) => {

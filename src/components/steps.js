@@ -34,7 +34,7 @@ class StepsView extends React.Component{
 
   onChange = (current) => {
     this.setState(({
-      current
+      current: prevState.current + 1
     }));
   }
 

@@ -3,8 +3,7 @@ import {round} from '../utils/index';
 
 const Overview = (props) => {
 
-  const {tokenIn, leverageToken, amount, deposit, borrow, price, leverageFactor} = props;
-  console.log(tokenIn, leverageToken, amount, deposit, borrow, price);
+  const {tokenIn, leverageToken, amount, deposit, borrow, mode, price, leverageFactor} = props;
 
   const collateral = deposit * price;
   const interestMode = mode == 1 ? 'Stable' : 'Variable';
