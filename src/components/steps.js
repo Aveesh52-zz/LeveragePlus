@@ -1,6 +1,10 @@
 import React from 'react';
 import Steps from 'antd/lib/steps';
-import {approve, approveDelegation, leverage} from "../utils/index";
+import Button from 'antd/lib/button';
+import {approve, fetchAllowance, approveDelegation, leverage} from "../utils/index";
+import Button from 'antd/lib/button';
+import {approve, fetchAllowance, approveDelegation, leverage} from "../utils/index";
+import {TOKENS} from '../config/config';
 
 const {Step} = Steps;
 
@@ -14,8 +18,8 @@ const details = [
     description: 'Approve delegation',
   },
   {
-    title: 'Deposit',
-    description: 'Deposit tokens',
+    title: 'Leverage',
+    description: 'Leverage on Aave',
   },
 ];
 
@@ -87,30 +91,31 @@ class StepsView extends React.Component{
   }
 
   render(){
+    const {tokenIn, leverageToken} = this.props; 
 
     return (
       <div id="steps-container">
         <Steps current={this.state.current} onChange={this.onChange}>
           {details.map((item, index) => (
             <Step key={item.title} title={item.title} description=""
-            disabled={this.state.current < index} />
+            disabled={this.state.current != index} />
           ))}
         </Steps>
         <div>
           {this.state.current == 0 &&
           <div className="steps-content">
-            <span>Approve tokens</span>
-            <button onClick={this.approve}>Approve</button>
+            <span>Approve {tokenIn} to Mantis</span>
+            <Button className="button" onClick={this.approve}>Approve</Button>
           </div>}
           {this.state.current == 1 &&
           <div className="steps-content">
-            <span>Approve delegation</span>
-            <button onClick={this.approveDelegation}>Approve</button>
+     <span>Approve Mantis to borrow {tokenIn}</span>
+            <Button className="button" onClick={this.approveDelegation}>Delegate</Button>
           </div>}
           {this.state.current == 2 &&
           <div className="steps-content">
-            <span>Deposit</span>
-            <button onClick={this.leverage}>Deposit</button>
+           <span>Leverage {leverageToken} on Aave</span>
+            <Button className="button" onClick={this.leverage}>Leverage</Button>
           </div>}
         </div>
       </div>
